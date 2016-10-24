@@ -128,9 +128,9 @@ static rlm_rcode_t mod_proc(void *instance, REQUEST *request) {
   netsnmp_session session;
   snmp_sess_init(&session);
   session.version = SNMP_VERSION_2c;
-  session.peername = strdup(peername);
-  session.community = (u_char *) strdup(community);
-  session.community_len = strlen((char *) session.community);
+  session.peername = peername;
+  session.community = (u_char *) community;
+  session.community_len = strlen(community);
   session.remote_port = inst->cfg.port;
   session.timeout = inst->cfg.timeout;
   session.retries = inst->cfg.retries;
