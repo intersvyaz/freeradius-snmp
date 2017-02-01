@@ -72,7 +72,7 @@ static int mod_instantiate(CONF_SECTION *conf, void *instance) {
   }
 
   init_snmp("rlm_snmp");
-  // disable extra quotes for snprint_value
+  // disable extra output for snprint_value
   netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_QUICK_PRINT, 1);
 
   return 0;
@@ -129,7 +129,7 @@ static rlm_rcode_t mod_proc(void *instance, REQUEST *request) {
   snmp_sess_init(&session);
   session.version = SNMP_VERSION_2c;
   session.peername = peername;
-  session.community = (u_char *) community;
+  session.community = (u_char *)community;
   session.community_len = strlen(community);
   session.remote_port = inst->cfg.port;
   session.timeout = inst->cfg.timeout;
@@ -174,9 +174,8 @@ static rlm_rcode_t mod_proc(void *instance, REQUEST *request) {
 
     VALUE_PAIR *vp = NULL;
     if (tmpl_find_vp(&vp, request, inst->cfg.output_attr) != 0) {
-      RADIUS_PACKET *packet = radius_packet(request, inst->cfg.output_attr->tmpl_list);
       VALUE_PAIR **vps = radius_list(request, inst->cfg.output_attr->tmpl_list);
-      vp = fr_pair_afrom_da(packet, inst->cfg.output_attr->tmpl_da);
+      vp = fr_pair_afrom_da(request, inst->cfg.output_attr->tmpl_da);
       fr_pair_add(vps, vp);
     }
 
